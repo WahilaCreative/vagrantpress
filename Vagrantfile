@@ -28,6 +28,10 @@ Vagrant.configure("2") do |config|
   # setup synced folders for the themese and plugin directories
   config.vm.synced_folder "theme/", File.join("/home/vagrant/wordpress/wp-content/themes", THEME_NAME), owner: "vagrant", group: "www-data"
   config.vm.synced_folder "plugin/", File.join("/home/vagrant/wordpress/wp-content/plugins", PLUGIN_NAME), owner: "vagrant", group: "www-data"
+
+  # provide access to the plugin and uploads directories on the guest OS
+  config.vm.synced_folder "plugins/", File.join("/home/vagrant/wordpress/wp-content/plugins"), owner: "vagrant", group: "www-data", create: true
+  config.vm.synced_folder "uploads/", File.join("/home/vagrant/wordpress/wp-content/uploads"), owner: "vagrant", group: "www-data", create: true
   
   # Fix for slow external network connections
   config.vm.provider :virtualbox do |vb|

@@ -1,6 +1,6 @@
 # VagrantPress
 
-*VagrantPress* is a packaged development environment for developing WordPress themes and modules.  
+*VagrantPress* is a packaged development environment for developing WordPress themes and modules.
 I initially created this project to aid in developing child modules for a WordPress blog.
 
 # What's Installed
@@ -31,7 +31,7 @@ I initially created this project to aid in developing child modules for a WordPr
 
 ## Getting Started
 
-This is a fairly simple project to get up and running.  
+This is a fairly simple project to get up and running.
 The procedure for starting up a working WordPress is as follows:
 
 1. Clone the project.  (There’s only master branch.)
@@ -51,6 +51,8 @@ The procedure for starting up a working WordPress is as follows:
 Both the *theme* and *plugin* directories are automatically mounted in the guest operating system using 
 the `THEME_NAME` and `PLUGIN_NAME` variables (defined in the *Vagrantfile*) as their enclosing directory within the *themes* and *plugins* 
 directories, respectively, within the guest OS.
+
+Access is also provided to the *plugins* and *uploads* directories on the guest OS (mounted on the host in the repository).
 
 ### Automatic Hostname Registry
 If you have the [vagrant-hostsupdater plugin](https://github.com/cogitatio/vagrant-hostsupdater) installed, an 

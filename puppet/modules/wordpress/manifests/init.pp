@@ -8,56 +8,40 @@ class wordpress::install {
     command => '/usr/bin/mysql -u root -pvagrant --execute=\'create database wordpress\'',
   }
 
+  # Create the wordpress user and give it permissions to the wordpress database
   exec { 'create-user':
     unless  => '/usr/bin/mysql -u wordpress -pwordpress wordpress',
-    command => '/usr/bin/mysql -u root -pvagrant --execute="GRANT ALL PRIVILEGES ON wordpress.* TO \'wordpress\'@\'localhost\' IDENTIFIED BY \'wordpress\'"',
+    command => '/usr/bin/mysql -u root -pvagrant --execute="GRANT ALL PRIVILEGES ON wordpress.* TO \'wordpress\'@\'%\' IDENTIFIED BY \'wordpress\'"',
   }
 
   # Get a new copy of the latest wordpress release
   # FILE TO DOWNLOAD: http://wordpress.org/latest.tar.gz
-
   exec { 'download-wordpress': #tee hee
     command => '/usr/bin/wget http://wordpress.org/latest.tar.gz',
-    cwd     => '/vagrant/',
-    creates => '/vagrant/latest.tar.gz'
+    cwd     => '/home/vagrant/',
+    creates => '/home/vagrant/latest.tar.gz'
   }
 
+  # This directory will have been created by vagrant when the machine
+  # is first created/started (as we are mounting certain folders within 
+  # this structure: themes/x plugins/x). just reset the permissions here 
+  # and we should be good to go
+  exec { 'wordpress-permissions':
+    cwd     => '/home/vagrant/',
+    command => '/bin/chown -R vagrant:www-data wordpress'
+  }
+
+  # extract the wordpress archive
   exec { 'untar-wordpress':
-    cwd     => '/vagrant/',
-    command => '/bin/tar xzvf /vagrant/latest.tar.gz',
-    require => Exec['download-wordpress'],
-    creates => '/vagrant/wordpress',
+    cwd     => '/home/vagrant/',
+    command => '/bin/tar -xzf latest.tar.gz',
+    require => Exec['download-wordpress', 'wordpress-permissions'],
+    user => vagrant
   }
 
-  # Import a MySQL database for a basic wordpress site.
-  file { '/tmp/wordpress-db.sql':
-    source => 'puppet:///modules/wordpress/wordpress-db.sql'
-  }
-
-  exec { 'load-db':
-    command => '/usr/bin/mysql -u wordpress -pwordpress wordpress < /tmp/wordpress-db.sql && touch /home/vagrant/db-created',
-    creates => '/home/vagrant/db-created',
-  }
-
-  # Copy a working wp-config.php file for the vagrant setup.
-  file { '/vagrant/wordpress/wp-config.php':
-    source => 'puppet:///modules/wordpress/wp-config.php'
-  }
-  
-   # Create the Wordpress Unit Tests database
-  exec { 'create-tests-database':
-    unless  => '/usr/bin/mysql -u root -pvagrant wp_tests',
-    command => '/usr/bin/mysql -u root -pvagrant --execute=\'create database wp_tests\'',
-  }
-
-  exec { 'create-tests-user':
-    unless  => '/usr/bin/mysql -u wordpress -pwordpress',
-    command => '/usr/bin/mysql -u root -pvagrant --execute="GRANT ALL PRIVILEGES ON wp_tests.* TO \'wordpress\'@\'localhost\' IDENTIFIED BY \'wordpress\'"',
-  }
-
-  # Copy a working wp-tests-config.php file for the vagrant setup.
-  file { '/vagrant/wordpress/wp-tests-config.php':
-    source  => 'puppet:///modules/wordpress/wp-tests-config.php',
-	require => Exec['untar-wordpress'],
+  # Copy a working wp-config.php file for the vagrant setup
+  file { '/home/vagrant/wordpress/wp-config.php':
+    source => 'puppet:///modules/wordpress/wp-config.php',
+    require => Exec['untar-wordpress'],
   }
 }

@@ -24,8 +24,8 @@ define('DB_USER', 'wordpress');
 /** MySQL database password */
 define('DB_PASSWORD', 'wordpress');
 
-/** MySQL hostname */
-define('DB_HOST', 'localhost');
+/** MySQL hostname: DO NOT USE localhost! */
+define('DB_HOST', '127.0.0.1');
 
 /** Database Charset to use in creating database tables. */
 define('DB_CHARSET', 'utf8');
@@ -88,3 +88,5 @@ if ( !defined('ABSPATH') )
 
 /** Sets up WordPress vars and included files. */
 require_once(ABSPATH . 'wp-settings.php');
+
+?>

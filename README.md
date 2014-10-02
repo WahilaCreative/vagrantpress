@@ -22,12 +22,12 @@ I initially created this project to aid in developing child modules for a WordPr
 + phpmd
 + PHP_CodeBrowser
 + WordPress sniffs for phpcs
-+ WordPress Unit Tests
 
 # Prerequisites
 
 + [Vagrant](http://www.vagrantup.com/downloads.html)
 + [Virtualbox](https://www.virtualbox.org/wiki/Downloads)
++ [vagrant-hostsupdater plugin](https://github.com/cogitatio/vagrant-hostsupdater) (optional)
 
 ## Getting Started
 
@@ -36,17 +36,26 @@ The procedure for starting up a working WordPress is as follows:
 
 1. Clone the project.  (There’s only master branch.)
 2. Run the command `vagrant up`
-3. Open your browser to http://localhost:8080
+3. Open your browser and point [192.168.50.4](http://192.168.50.4) (or `HOSTNAME` if you have the [vagrant-hostsupdater plugin](https://github.com/cogitatio/vagrant-hostsupdater) installed)
 
 ## Working with the environment
 
-To log in to the local Wordpress installation:
+### General Credentials
 
-`http://localhost:8080/wp-admin/` the username is `admin`, the password is `vagrant`.
+### DB credentials (username/password):
 
-You can access phpMyAdmin:
+* **Wordpress DB**: wordpress/wordpress
+* **Root**: root/vagrant
 
-`http://localhost:8080/phpmyadmin/` with username `wordpress`, password `wordpress`.
+### Shared Directories
+Both the *theme* and *plugin* directories are automatically mounted in the guest operating system using 
+the `THEME_NAME` and `PLUGIN_NAME` variables (defined in the *Vagrantfile*) as their enclosing directory within the *themes* and *plugins* 
+directories, respectively, within the guest OS.
+
+### Automatic Hostname Registry
+If you have the [vagrant-hostsupdater plugin](https://github.com/cogitatio/vagrant-hostsupdater) installed, an 
+entry will automatically be added to your */etc/hosts* file to point to the guest machine's address. The 
+hostname that the machine uses is set by the `HOSTNAME` variable in the Vagrantfile.
 
 ## A Few Details
 

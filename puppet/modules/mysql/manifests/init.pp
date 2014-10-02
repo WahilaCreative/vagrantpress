@@ -11,6 +11,14 @@ class mysql::install {
     ensure => installed,
   }
 
+  # gives us a handle on the mysql server service so that 
+  # we can restart it n'at
+  service { 'mysqld':
+    ensure => running,
+    provider => 'init',
+    name => 'mysql'
+  }
+
   exec { 'Set MySQL server\'s root password':
     subscribe   => [
       Package['mysql-server'],
@@ -22,4 +30,10 @@ class mysql::install {
     command     => "mysqladmin -uroot password ${password}",
   }
 
+  # set the mysql bind address (so we can connect from outside the machine)
+  exec { 'set-bind-address':
+    command => '/bin/sed -i "s/bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/my.cnf',
+    user => root,
+    notify  => Service['mysqld']
+  }
 }

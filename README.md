@@ -22,6 +22,7 @@ I initially created this project to aid in developing child modules for a WordPr
 + phpmd
 + PHP_CodeBrowser
 + WordPress sniffs for phpcs
++ [Search and Replace DB](https://interconnectit.com/products/search-and-replace-for-wordpress-databases/)
 
 # Prerequisites
 
@@ -40,8 +41,6 @@ The procedure for starting up a working WordPress is as follows:
 
 ## Working with the environment
 
-### General Credentials
-
 ### DB credentials (username/password):
 
 * **Wordpress DB**: wordpress/wordpress
@@ -58,6 +57,9 @@ Access is also provided to the *plugins* and *uploads* directories on the guest 
 If you have the [vagrant-hostsupdater plugin](https://github.com/cogitatio/vagrant-hostsupdater) installed, an 
 entry will automatically be added to your */etc/hosts* file to point to the guest machine's address. The 
 hostname that the machine uses is set by the `HOSTNAME` variable in the Vagrantfile.
+
+### Access to Search and Replace DB
+All the files for Search and Replace DB have been copied into the VM and should be accessible via the web server at the following path: `/srdb`.
 
 ## A Few Details
 

@@ -1,9 +1,9 @@
 .vagrant
 .ey_local_data
 .DS_Store
-plugins
-uploads
 latest.tar.gz
 ./wordpress/
 /wordpress/
 /wp-tests/
+si.sublime-project
+si.sublime-workspace

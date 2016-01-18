@@ -1,19 +1,17 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-HOSTNAME = "si.dev"
-
 Vagrant.configure("2") do |config|
 
   # use ubuntu 14.04 (pull from Atlas repo)
   config.vm.box = "ubuntu/trusty64"
 
   # setup a local hostname for this machine
-  config.vm.hostname = HOSTNAME
+  config.vm.hostname = "vagrantpress.dev"
 
   # set the local network address for this vm (you can set this 
   # in your hosts file, so yeah, that is pretty awesome, right?)
-  config.vm.network :private_network, ip: "192.168.50.4"
+  config.vm.network :private_network, ip: "192.168.50.44"
 
   config.vm.provision :puppet do |puppet|
     puppet.manifests_path = "puppet/manifests"

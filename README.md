@@ -3,6 +3,10 @@
 *VagrantPress* is a packaged development environment for developing WordPress themes and modules.
 I initially created this project to aid in developing child modules for a WordPress blog.
 
+## Important: Changing PHP max file upload size
+`/etc/php5/apache2/php.ini` is the proper directory inside vagrant.
+Change both the `upload_max_size` and `post_max_size`.
+
 # What's Installed
 
 + Ubuntu Trusty (14.04)
